@@ -4,22 +4,16 @@ Zadanie:
 Zaprojektuj i zaimplementuj Web API w .NET oraz Frontend, które pozwoli na zarządzanie zamówieniami w systemie e-commerce. Twoje API powinno umożliwiać dodawanie, usuwanie, modyfikowanie oraz przeglądanie informacji o zamówieniach i produktach.
 
 Wymagania:
-
-    Zdefiniuj modele: Order (Zamówienie) i Product (Produkt)
-
-    Zaimplementuj operacje CRUD dla obu modeli
-
-    Zaimplementuj relację wiele-do-wielu: jedno zamówienie może zawierać wiele produktów
-
-    Utwórz odpowiednie endpointy API do zarządzania zamówieniami i produktami
-
-    Skonfiguruj bazę danych do przechowywania danych z uwzględnieniem relacji
-
-    Zadbaj o asynchroniczność
-
-    Stwórz Frontend
-
-    Umieść projekt w repozytorium na GitHubie i podeślij link
+<ul>
+    <li>Zdefiniuj modele: Order (Zamówienie) i Product (Produkt)</li>
+    <li>Zaimplementuj operacje CRUD dla obu modeli</li>
+    <li>Zaimplementuj relację wiele-do-wielu: jedno zamówienie może zawierać wiele produktów</li>
+    <li>Utwórz odpowiednie endpointy API do zarządzania zamówieniami i produktami</li>
+    <li>Skonfiguruj bazę danych do przechowywania danych z uwzględnieniem relacji</li>
+    <li>Zadbaj o asynchroniczność</li>
+    <li>Stwórz Frontend</li>
+    <li>Umieść projekt w repozytorium na GitHubie i podeślij link</li>
+</ul>
 
 ## ⚙️ Część 2: Automatyzacja wdrożenia
 
