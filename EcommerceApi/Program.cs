@@ -10,6 +10,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=ecommerce.db"));
 builder.Services.AddControllers();
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // <- adres Twojego frontendu
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -18,7 +29,14 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCors("AllowFrontend");
+
 app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
 
 var summaries = new[]
 {
@@ -38,8 +56,6 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
-
-app.MapControllers();
 
 app.Run();
 
