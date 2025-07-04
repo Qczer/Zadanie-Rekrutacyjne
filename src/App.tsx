@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import type { Product } from './models/Product';
 import AxiosInstance from './api/AxiosInstance';
+import ProductCard from './components/ProductCard';
 
 function App() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -23,11 +24,11 @@ function App() {
   
   return (
     <>
-    {error && (
-      <h1>{error}</h1>
-    )}
-      {products.map((p) => (
-        <div key={p.id}><p>{p.name} - {p.price} zł</p></div>
+      {error && (
+        <h1>{error}</h1>
+      )}
+      {products.map((p, index) => (
+        <ProductCard product={p} key={index+1}/>
       ))}
     </>
   )
