@@ -28,12 +28,12 @@ Skonfiguruj automatyczne wdrożenie aplikacji Web API, korzystając z GitHub Act
 
 Wymagania:
 
-<li>
-    <ul>Workflow uruchamiany po każdym push na gałąź main</ul>
-    <ul>Etap budowania aplikacji</ul>
-    <ul>Automatyczne wdrożenie w Azure</ul>
-    <ul>Dokumentacja procesu CI/CD w pliku README</ul>
-</li>
+<ul>
+    <li>Workflow uruchamiany po każdym push na gałąź main</li>
+    <li>Etap budowania aplikacji</li>
+    <li>Automatyczne wdrożenie w Azure</li>
+    <li>Dokumentacja procesu CI/CD w pliku README</li>
+</ul>
 
 ## ☁️ Część 3: Wdrożenie API w Azure
 
