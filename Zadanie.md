@@ -37,12 +37,13 @@ Wdrożenie Twojego Web API oraz web app w chmurze Azure – np. przy użyciu Azu
 Wymagania:
 <ul>
 <li>Publicznie dostępne API</li>
-<li>Informacje w README:</li>
+<li>Informacje w README:
     <ul>
-    <li>Jak się połączyć z wdrożoną aplikacją</li>
-    <li>Jakie usługi Azure zostały wykorzystane</li>
-    <li>Ewentualne informacje konfiguracyjne</li>
+        <li>Jak się połączyć z wdrożoną aplikacją</li>
+        <li>Jakie usługi Azure zostały wykorzystane</li>
+        <li>Ewentualne informacje konfiguracyjne</li>
     </ul>
+</li>
 </ul>
 
 Zadanie możesz zrealizować etapami – nawet jeśli nie skończysz wszystkiego od razu, pokaż nam, co już działa i jak myślisz nad kolejnymi krokami.
