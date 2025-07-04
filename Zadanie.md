@@ -35,16 +35,15 @@ Zadanie:
 Wdrożenie Twojego Web API oraz web app w chmurze Azure – np. przy użyciu Azure App Service.
 
 Wymagania:
-
-    Publicznie dostępne API
-
-    Informacje w README:
-
-        Jak się połączyć z wdrożoną aplikacją
-
-        Jakie usługi Azure zostały wykorzystane
-
-        Ewentualne informacje konfiguracyjne
+<ul>
+<li>Publicznie dostępne API</li>
+<li>Informacje w README:</li>
+    <ul>
+    <li>Jak się połączyć z wdrożoną aplikacją</li>
+    <li>Jakie usługi Azure zostały wykorzystane</li>
+    <li>Ewentualne informacje konfiguracyjne</li>
+    </ul>
+</ul>
 
 Zadanie możesz zrealizować etapami – nawet jeśli nie skończysz wszystkiego od razu, pokaż nam, co już działa i jak myślisz nad kolejnymi krokami.
 
