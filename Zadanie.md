@@ -1,4 +1,4 @@
-🛒 Część 1: Tworzenie Web API oraz Frontend (Optymalnie Vue lub inny framework Javascriptowy np. React)
+## 🛒 Część 1: Tworzenie Web API oraz Frontend (Optymalnie Vue lub inny framework Javascriptowy np. React)
 
 Zadanie:
 Zaprojektuj i zaimplementuj Web API w .NET oraz Frontend, które pozwoli na zarządzanie zamówieniami w systemie e-commerce. Twoje API powinno umożliwiać dodawanie, usuwanie, modyfikowanie oraz przeglądanie informacji o zamówieniach i produktach.
@@ -21,22 +21,25 @@ Wymagania:
 
     Umieść projekt w repozytorium na GitHubie i podeślij link
 
-⚙️ Część 2: Automatyzacja wdrożenia
+## ⚙️ Część 2: Automatyzacja wdrożenia
 
 Zadanie:
 Skonfiguruj automatyczne wdrożenie aplikacji Web API, korzystając z GitHub Actions.
 
 Wymagania:
 
-    Workflow uruchamiany po każdym push na gałąź main
+<li>
 
-    Etap budowania aplikacji
+    <ul>Workflow uruchamiany po każdym push na gałąź main</ul>
 
-    Automatyczne wdrożenie w Azure
+    <ul>Etap budowania aplikacji</ul>
 
-    Dokumentacja procesu CI/CD w pliku README
+    <ul>Automatyczne wdrożenie w Azure</ul>
 
-☁️ Część 3: Wdrożenie API w Azure
+    <ul>Dokumentacja procesu CI/CD w pliku README</ul>
+</li>
+
+## ☁️ Część 3: Wdrożenie API w Azure
 
 Zadanie:
 Wdrożenie Twojego Web API oraz web app w chmurze Azure – np. przy użyciu Azure App Service.
