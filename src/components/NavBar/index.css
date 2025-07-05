@@ -1,0 +1,31 @@
+nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+}
+
+nav div {
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+}
+
+nav span, .nav-icon {
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .3s;
+  font-size: 1.25rem;
+}
+
+nav h2 {
+  margin: 0;
+  pointer-events: none;
+}
+
+nav span:hover, .nav-icon:hover circle, .nav-icon:hover line, .nav-icon:hover path{
+  color: var(--theme-color);
+}

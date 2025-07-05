@@ -1,5 +1,61 @@
 .productCard {
-  border: 1px solid blue;
-  padding: 15px;
+  background-color: #1e1e1e; /* ciemny granat */
+  border: 1px solid #11131a;
+  padding: 20px;
   border-radius: 12px;
+  width: 200px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  transition: box-shadow 0.3s ease;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #ddd;
+}
+
+.productCard:hover {
+  box-shadow: 0 6px 15px rgba(0,0,0,0.9);
+}
+
+.productCard img {
+  border-radius: 8px;
+  object-fit: contain;
+  filter: brightness(0.9);
+}
+
+.productCard p {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  color: #ddd;
+}
+
+.productCard p.name {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.productCard p.price {
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.productCard button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #4f80ff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(79,128,255,0.7);
+}
+
+.productCard button:hover {
+  background-color: #3a5edd;
+  box-shadow: 0 4px 12px rgba(58,94,221,0.9);
 }
