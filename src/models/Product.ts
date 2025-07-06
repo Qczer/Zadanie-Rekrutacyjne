@@ -1,6 +1,6 @@
 import type { OrderProduct } from "./OrderProduct";
 
-export type Product = {
+export default interface Product {
   id: number;
   name: string;
   price: number;

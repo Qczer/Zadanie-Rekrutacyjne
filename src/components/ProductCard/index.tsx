@@ -1,4 +1,5 @@
-import type { Product } from '../../models/Product';
+import { useCartProducts } from '../../contexts/Cart';
+import type Product from '../../models/Product';
 import './index.css'
 
 type Props = {
@@ -6,12 +7,14 @@ type Props = {
 }
 
 const ProductCard = ({ product }: Props) => {
+  const { addToCart } = useCartProducts()
+
   return (
     <div key={product.id} className="productCard">
       <img src={`/assets/products/${product.name.toLowerCase()}.png`} alt={product.name} height={150}/>
       <p className='name'>{product.name}</p>
       <p className='price'>{product.price}zł</p>
-      <button>Add To Cart</button>
+      <button onClick={() => addToCart(product)}>Add To Cart</button>
     </div>
   )
 };

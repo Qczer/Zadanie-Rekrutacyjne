@@ -1,16 +1,18 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import './index.css'
 import { FiSearch, FiShoppingCart } from 'react-icons/fi'
+import { useCartProducts } from '../../contexts/Cart';
 
 type NavBarProps = {
-  searching: boolean;
-  onSearch: (value: string) => void;
+  searching?: boolean;
+  onSearch?: (value: string) => void;
+  setSearching?: (value: boolean) => void;
 }
 
-const NavBar = ({searching, onSearch}: NavBarProps) => {
+const NavBar = ({searching, onSearch, setSearching}: NavBarProps) => {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
-  const state = useLocation().state;
+  const { cartProducts } = useCartProducts()
   
   return (
     <nav>
@@ -19,11 +21,16 @@ const NavBar = ({searching, onSearch}: NavBarProps) => {
         <span onClick={() => {if(pathname !== '/contact') navigate('/contact')}}>Contact</span>
       </div>
       <div>
-        {searching && (
+        {(searching && onSearch) && (
           <input type='text' onChange={(e) => onSearch(e.target.value)}/>
         )}
-        <FiSearch className="nav-icon" onClick={() => {navigate('/', { state: { searching: !state.searching } }); onSearch('')}}/>
-        <FiShoppingCart className="nav-icon" onClick={() => {if(pathname !== '/cart') navigate('/cart')}}/>
+        <FiSearch className="navIcon" onClick={() => {if(pathname !== '/') {navigate('/', {state: {startSearching: true}})} else {if(setSearching) {setSearching(!searching)}; if(onSearch) {onSearch('')}}}}/>
+        <div className="navIcon" style={{position: 'relative'}} onClick={() => {if(pathname !== '/cart') navigate('/cart')}}>
+          <FiShoppingCart/>
+          <div style={{position: 'absolute', right: -10, bottom: -10, background: '#4f80ff', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <p style={{fontSize: 16}}>{cartProducts.length}</p>
+          </div>
+        </div>
       </div>
     </nav>
   )

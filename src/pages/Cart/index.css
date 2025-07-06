@@ -1,0 +1,97 @@
+.cart-container {
+  min-height: 100vh;
+  padding: 0;
+}
+
+.cart-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.cart-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3b82f6; /* niebieski akcent */
+  margin-bottom: 1.5rem;
+}
+
+.cart-empty {
+  color: #9ca3af;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #242424;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.item-id {
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+.item-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.control-btn {
+  background-color: #2563eb;
+  color: white;
+}
+
+.control-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.delete-btn {
+  background-color: #ef4444;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
+}
+
+.clear-btn {
+  width: 100%;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.clear-btn:hover {
+  background-color: #2563eb;
+}
+
+.item-amount {
+  font-size: 1.2rem;
+  width: 2rem;
+  text-align: center;
+}

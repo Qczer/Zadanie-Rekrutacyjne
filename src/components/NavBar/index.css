@@ -14,7 +14,7 @@ nav div {
   gap: 15px;
 }
 
-nav span, .nav-icon {
+nav span, .navIcon {
   font-weight: 600;
   cursor: pointer;
   transition: color .3s;
@@ -26,6 +26,6 @@ nav h2 {
   pointer-events: none;
 }
 
-nav span:hover, .nav-icon:hover circle, .nav-icon:hover line, .nav-icon:hover path{
+nav span:hover, .navIcon:hover circle, .navIcon:hover line, .navIcon:hover path{
   color: var(--theme-color);
 }

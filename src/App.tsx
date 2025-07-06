@@ -4,16 +4,22 @@ import Store from './pages/Store'
 import NotFound from './pages/NotFound'
 import Cart from './pages/Cart'
 import Contact from './pages/Contact'
+import ProductsProvider from './contexts/Products/ProductsProvider'
+import CartProvider from './contexts/Cart/CartProvider'
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Store />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <ProductsProvider>
+      <CartProvider>
+        <Routes>
+          <Route path="/" element={<Store />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </CartProvider>
+      </ProductsProvider>
     </Router>
   )
 }
