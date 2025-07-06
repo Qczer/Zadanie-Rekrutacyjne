@@ -1,6 +1,8 @@
 # zadanie-rekrutacyjne
 
 ## Setup:
+To Download Node modules -  Open terminal -> CD zadanie-rekrutacyjne -> npm install
+<br>
 To Start DB -  Open Terminal -> Cd EcommerceApi -> dotnet run
 <br>
 To Start Site -  Open Terminal -> CD zadanie-rekturacyjne -> npm run dev
