@@ -11,6 +11,7 @@ nav {
 nav div {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   gap: 15px;
 }
 
@@ -28,4 +29,18 @@ nav h2 {
 
 nav span:hover, .navIcon:hover circle, .navIcon:hover line, .navIcon:hover path{
   color: var(--theme-color);
+}
+
+.searchInput {
+  padding: 5px 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2e2e2e;
+  outline: none;
+  margin: 0;
+  height: 20px;
+}
+
+.searchInput:hover, .searchInput:focus {
+  outline: 1px solid var(--theme-color);
 }

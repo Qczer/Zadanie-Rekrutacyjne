@@ -2,6 +2,7 @@ import './index.css';
 import NavBar from "../../components/NavBar";
 import { useCartProducts } from '../../contexts/Cart';
 import AxiosInstance from '../../api/AxiosInstance';
+import { useState } from 'react';
 
 const Cart = () => {
   const {
@@ -11,6 +12,7 @@ const Cart = () => {
     removeFromCart,
     clearCart
   } = useCartProducts();
+  const [message, setMessage] = useState('')
 
   function orderCart() {
     const orderData = cartProducts.map(item => ({
@@ -21,12 +23,13 @@ const Cart = () => {
     console.log(orderData)
 
     AxiosInstance.post('/Orders', orderData)
-    .then(response => {
-      console.log('Zamówienie utworzone:', response.data);
+    .then(() => {
+      setMessage('Your order was completed successfully.')
       clearCart();
     })
     .catch(error => {
-      console.error('Błąd przy tworzeniu zamówienia:', error.response?.data ?? error.message);
+      console.error('An error occurred while processing your order:', error.response?.data ?? error.message);
+      setMessage('An error occurred while processing your order')
     });
   }
 
@@ -59,6 +62,7 @@ const Cart = () => {
             <button onClick={orderCart} className="btn order-btn">Order</button>
           </div>
         )}
+        {message && <h2>{message}</h2>}
       </div>
     </div>
   );

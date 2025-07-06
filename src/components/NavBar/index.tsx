@@ -22,7 +22,7 @@ const NavBar = ({searching, onSearch, setSearching}: NavBarProps) => {
       </div>
       <div>
         {(searching && onSearch) && (
-          <input type='text' onChange={(e) => onSearch(e.target.value)}/>
+          <input type='text' className="searchInput" onChange={(e) => onSearch(e.target.value)}/>
         )}
         <FiSearch className="navIcon" onClick={() => {if(pathname !== '/') {navigate('/', {state: {startSearching: true}})} else {if(setSearching) {setSearching(!searching)}; if(onSearch) {onSearch('')}}}}/>
         <div className="navIcon" style={{position: 'relative'}} onClick={() => {if(pathname !== '/cart') navigate('/cart')}}>
