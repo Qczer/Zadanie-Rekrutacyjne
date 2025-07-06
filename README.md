@@ -1,4 +1,4 @@
-# zadanie-rekrutacyjne
+# Zadanie Rekrutacyjne
 
 ## Setup:
 To Download Node modules -  Open terminal -> CD zadanie-rekrutacyjne -> npm install
