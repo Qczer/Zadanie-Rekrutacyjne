@@ -6,11 +6,13 @@ import Cart from './pages/Cart'
 import Contact from './pages/Contact'
 import ProductsProvider from './contexts/Products/ProductsProvider'
 import CartProvider from './contexts/Cart/CartProvider'
+import LikedProvider from './contexts/Liked/LikedProvider'
 
 function App() {
   return (
     <Router>
       <ProductsProvider>
+      <LikedProvider>
       <CartProvider>
         <Routes>
           <Route path="/" element={<Store />} />
@@ -19,6 +21,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </CartProvider>
+      </LikedProvider>
       </ProductsProvider>
     </Router>
   )

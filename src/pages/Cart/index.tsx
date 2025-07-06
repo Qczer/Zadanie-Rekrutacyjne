@@ -15,12 +15,12 @@ const Cart = () => {
     <div className="cart-container">
       <NavBar />
       <div className="cart-content">
-        <h1 className="cart-title">Twój koszyk</h1>
+        <h1 className="cart-title">Your Cart</h1>
 
         {cartProducts.length === 0 ? (
-          <p className="cart-empty">Koszyk jest pusty.</p>
+          <p className="cart-empty">Your cart is empty.</p>
         ) : (
-          <>
+          <div>
             {cartProducts.map((p, index) => (
               <div key={index+1} className="cart-item">
                 <div className="item-info">
@@ -35,11 +35,8 @@ const Cart = () => {
                 </div>
               </div>
             ))}
-
-            <button onClick={clearCart} className="btn clear-btn">
-              Wyczyść koszyk
-            </button>
-          </>
+            <button onClick={clearCart} className="btn clear-btn">Clear Cart</button>
+          </div>
         )}
       </div>
     </div>

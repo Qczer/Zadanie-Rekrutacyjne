@@ -13,6 +13,7 @@
   align-items: center;
   gap: 10px;
   color: #ddd;
+  position: relative;
 }
 
 .productCard:hover {
@@ -42,7 +43,7 @@
   color: #aaa;
 }
 
-.productCard button {
+.addToCartBtn {
   padding: 10px 20px;
   border-radius: 8px;
   border: none;
@@ -55,7 +56,7 @@
   box-shadow: 0 2px 6px rgba(79,128,255,0.7);
 }
 
-.productCard button:hover {
+.addToCartBtn:hover {
   background-color: #3a5edd;
   box-shadow: 0 4px 12px rgba(58,94,221,0.9);
 }
