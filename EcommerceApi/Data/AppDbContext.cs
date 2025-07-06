@@ -14,17 +14,17 @@ namespace EcommerceApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OrderProduct>()
-                .HasKey(op => new { op.OrderId, op.ProductId });
+                .HasKey(oi => new { oi.OrderId, oi.ProductId });
 
             modelBuilder.Entity<OrderProduct>()
-                .HasOne(op => op.Order)
+                .HasOne(oi => oi.Order)
                 .WithMany(o => o.OrderProducts)
-                .HasForeignKey(op => op.OrderId);
+                .HasForeignKey(oi => oi.OrderId);
 
             modelBuilder.Entity<OrderProduct>()
-                .HasOne(op => op.Product)
+                .HasOne(oi => oi.Product)
                 .WithMany(p => p.OrderProducts)
-                .HasForeignKey(op => op.ProductId);
+                .HasForeignKey(oi => oi.ProductId);
         }
     }
 }

@@ -1,6 +1,7 @@
 import './index.css';
 import NavBar from "../../components/NavBar";
 import { useCartProducts } from '../../contexts/Cart';
+import AxiosInstance from '../../api/AxiosInstance';
 
 const Cart = () => {
   const {
@@ -11,12 +12,32 @@ const Cart = () => {
     clearCart
   } = useCartProducts();
 
+  function orderCart() {
+    const orderData = cartProducts.map(item => ({
+      productId: item.product.id,
+      quantity: item.amount
+    }));
+
+    console.log(orderData)
+
+    AxiosInstance.post('/Orders', orderData)
+    .then(response => {
+      console.log('Zamówienie utworzone:', response.data);
+      clearCart();
+    })
+    .catch(error => {
+      console.error('Błąd przy tworzeniu zamówienia:', error.response?.data ?? error.message);
+    });
+  }
+
   return (
     <div className="cart-container">
       <NavBar />
       <div className="cart-content">
-        <h1 className="cart-title">Your Cart</h1>
-
+        <div style={{position: 'relative'}}>
+          <h1 className="cart-title">Your Cart</h1>
+          <button onClick={clearCart} className="btn clear-btn">Clear Cart</button>
+        </div>
         {cartProducts.length === 0 ? (
           <p className="cart-empty">Your cart is empty.</p>
         ) : (
@@ -35,7 +56,7 @@ const Cart = () => {
                 </div>
               </div>
             ))}
-            <button onClick={clearCart} className="btn clear-btn">Clear Cart</button>
+            <button onClick={orderCart} className="btn order-btn">Order</button>
           </div>
         )}
       </div>

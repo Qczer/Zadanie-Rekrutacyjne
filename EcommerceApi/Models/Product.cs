@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace EcommerceApi.Models
 {
     public class Product
@@ -6,6 +8,7 @@ namespace EcommerceApi.Models
         public string Name { get; set; } = null!;
         public decimal Price { get; set; }
 
-        public ICollection<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
+        [JsonIgnore]
+        public List<OrderProduct> OrderProducts { get; set; } = new();
     }
 }

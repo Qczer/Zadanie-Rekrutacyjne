@@ -78,6 +78,18 @@
 }
 
 .clear-btn {
+  width: fit-content;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  padding: .25rem 1rem;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 0;
+}
+
+.order-btn {
   width: 100%;
   background-color: #3b82f6;
   color: white;

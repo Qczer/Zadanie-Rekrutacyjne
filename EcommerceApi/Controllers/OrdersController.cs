@@ -7,6 +7,7 @@ namespace EcommerceApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class OrdersController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -18,32 +19,86 @@ namespace EcommerceApi.Controllers
 
         // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrders()
         {
-            return await _context.Orders.ToListAsync();
+            var orders = await _context.Orders
+                .Include(o => o.OrderProducts)
+                    .ThenInclude(op => op.Product)
+                .Select(o => new OrderDto
+                {
+                    Id = o.Id,
+                    CreatedAt = o.CreatedAt,
+                    Products = o.OrderProducts.Select(op => new OrderProductDto
+                    {
+                        ProductId = op.ProductId,
+                        ProductName = op.Product.Name,
+                        Quantity = op.Quantity,
+                        UnitPrice = op.UnitPrice
+                    }).ToList()
+                })
+                .ToListAsync();
+
+            return Ok(orders);
         }
 
         // GET: api/Orders/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
+        public async Task<ActionResult<OrderDto>> GetOrder(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _context.Orders
+                .Include(o => o.OrderProducts)
+                    .ThenInclude(op => op.Product)
+                .Where(o => o.Id == id)
+                .Select(o => new OrderDto
+                {
+                    Id = o.Id,
+                    CreatedAt = o.CreatedAt,
+                    Products = o.OrderProducts.Select(op => new OrderProductDto
+                    {
+                        ProductId = op.ProductId,
+                        ProductName = op.Product.Name,
+                        Quantity = op.Quantity,
+                        UnitPrice = op.UnitPrice
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
 
             if (order == null)
                 return NotFound();
 
-            return order;
+            return Ok(order);
         }
 
         // POST: api/Orders
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        public async Task<ActionResult<Order>> PostOrder([FromBody] List<CreateOrderProductDto> products)
         {
+            var order = new Order
+            {
+                CreatedAt = DateTime.UtcNow,
+                OrderProducts = new List<OrderProduct>()
+            };
+
+            foreach (var item in products)
+            {
+                var product = await _context.Products.FindAsync(item.ProductId);
+                if (product == null)
+                    return BadRequest($"Produkt o ID {item.ProductId} nie istnieje.");
+
+                order.OrderProducts.Add(new OrderProduct
+                {
+                    Product = product,
+                    Quantity = item.Quantity,
+                    UnitPrice = product.Price
+                });
+            }
+
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
         }
+
 
         // PUT: api/Orders/5
         [HttpPut("{id}")]
