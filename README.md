@@ -2,6 +2,7 @@
 
 ## Setup:
 To Start DB -  Open Terminal -> Cd EcommerceApi -> dotnet run
+<br>
 To Start Site -  Open Terminal -> CD zadanie-rekturacyjne -> npm run dev
 
 ### Home
