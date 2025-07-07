@@ -19,13 +19,13 @@ jobs:
           dotnet-version: '7.0.x' # dopasuj wersję .NET
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore EcommerceApi/EcommerceApi.csproj
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build EcommerceApi/EcommerceApi.csproj --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish -c Release -o ./publish
+        run: dotnet publish EcommerceApi/EcommerceApi.csproj -c Release -o ./publish
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
