@@ -30,13 +30,12 @@ jobs:
       - name: Zip publish folder
         run: zip -r publish.zip ./publish
 
-      - name: Debug publish-profile secret
-        run: echo "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}" | head -n 10
+      - name: Check publish profile length
+        run: echo "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}" | wc -c
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: ZadanieRekrutacyjne
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ./publish.zip
-          deployment-method: zip
+          package: ./publish
