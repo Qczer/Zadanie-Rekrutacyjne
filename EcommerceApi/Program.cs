@@ -14,11 +14,11 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 // CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
+    options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("https://mango-mushroom-039bbbc03.2.azurestaticapps.net") // <- adres Twojego frontendu
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseCors("AllowFrontend");
+app.UseCors();
 
 app.UseHttpsRedirection();
 
