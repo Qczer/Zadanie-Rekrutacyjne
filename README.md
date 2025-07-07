@@ -1,17 +1,49 @@
-# Zadanie Rekrutacyjne
+# Projekt Web API z automatycznym wdrożeniem w Azure
 
-## Setup:
-To Download Node modules -  Open terminal -> CD zadanie-rekrutacyjne -> npm install
-<br>
-To Start DB -  Open Terminal -> Cd EcommerceApi -> dotnet run
-<br>
-To Start Site -  Open Terminal -> CD zadanie-rekturacyjne -> npm run dev
+## Spis treści
 
-### Home
-![Commerce Store - Home](https://github.com/user-attachments/assets/9b27d331-dd95-48d1-b78c-81c572f96323)
+- [Opis projektu](#opis-projektu)  
+- [Automatyzacja wdrożenia (CI/CD)](#automatyzacja-wdrożenia-cicd)  
+- [Wdrożenie w Azure](#wdrożenie-w-azure)  
+- [Jak korzystać z API](#jak-korzystać-z-api)  
+- [Wykorzystane usługi Azure](#wykorzystane-usługi-azure)  
 
-### Cart
-![E-Commerce Store - Cart](https://github.com/user-attachments/assets/0ae7c57a-b926-4141-a415-2c7c7c3112d3)
+---
 
-### Cart - After Ordering
-![E-Commerce Store - After Order Done](https://github.com/user-attachments/assets/074d9098-1b9f-4914-b236-9c245b31150e)
+## Opis projektu
+
+Frontend używa React połączony z Web API napisany w C#, który używa SQLite. Aplikacja jest hostowana w chmurze Azure z automatycznym procesem CI/CD.
+
+---
+
+## Automatyzacja wdrożenia (CI/CD)
+
+- Workflow GitHub Actions uruchamia się po każdym pushu na branchu `main`.
+- Wykonuje się budowanie aplikacji i automatyczne wdrożenie do Azure App Service.
+- Użyte zostały 2 workflowy: jeden do budowania frontendu, a drugi do budowania bazy danych, znajdują się w `.github/workflows/`.
+- Profil publikacji Azure jest przechowywany jako sekret GitHub o nazwie `AZURE_WEBAPP_PUBLISH_PROFILE`.
+
+---
+
+## Wdrożenie w Azure
+
+- Aplikacja jest dostępna pod adresem:  
+  `https://mango-mushroom-039bbbc03.2.azurestaticapps.net/`
+- API jest dostępne pod adresem:
+  `https://zadanierekrutacyjne-bdf0dqexb7hzdjcd.polandcentral-01.azurewebsites.net/api`
+
+---
+
+## Jak korzystać z API
+
+- Wysyłaj żądania HTTPS do endpointów API.
+- Przykład:  
+  `GET https://zadanierekrutacyjne-bdf0dqexb7hzdjcd.polandcentral-01.azurewebsites.net/api/products`
+- API zwraca dane w formacie JSON.
+
+---
+
+## Wykorzystane usługi Azure
+
+- **Static Web App** – hostowanie strony internetowej.
+- **Azure App Service** – hostowanie bazy danych.

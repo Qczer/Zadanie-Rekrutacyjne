@@ -11,8 +11,6 @@ const Store = () => {
   const { startSearching } = useLocation().state ?? false;
   const [searching, setSearching] = useState(startSearching);
 
-  console.log(products)
-
   return (
     <div className="container">
       <NavBar searching={searching} onSearch={(value: string) => setFilter(value)} setSearching={(value: boolean) => setSearching(value)}/>

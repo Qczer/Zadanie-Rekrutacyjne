@@ -20,8 +20,6 @@ const Cart = () => {
       quantity: item.amount
     }));
 
-    console.log(orderData)
-
     AxiosInstance.post('/orders', orderData)
     .then(() => {
       setMessage('Your order was completed successfully.')
