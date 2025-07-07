@@ -1,4 +1,9 @@
-# Projekt Web API z automatycznym wdrożeniem w Azure
+# Zadanie Rekrutacyjne
+
+## Linki
+
+- 🔗 **Frontend:** [https://mango-mushroom-039bbbc03.2.azurestaticapps.net](https://mango-mushroom-039bbbc03.2.azurestaticapps.net)
+- 🔗 **API np. products:** [https://zadanierekrutacyjne-bdf0dqexb7hzdjcd.polandcentral-01.azurewebsites.net/api/products](https://zadanierekrutacyjne-bdf0dqexb7hzdjcd.polandcentral-01.azurewebsites.net/api/products)
 
 ## Spis treści
 
