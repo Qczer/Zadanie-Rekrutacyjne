@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_DB_URL+'/api';
 
-console.log(process.env.DB_URL_)
+console.log(import.meta.env.VITE_DB_URL)
 console.log('Base url: ' + BASE_URL)
 
 const AxiosInstance = axios.create({
