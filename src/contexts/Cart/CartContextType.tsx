@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import type Product from "../../models/Product";
+import type { Product } from "../../models/Product";
 
 interface CartContextType {
   cartProducts: { product: Product; amount: number }[];

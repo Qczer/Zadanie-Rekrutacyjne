@@ -1,5 +1,5 @@
 import { useCartProducts } from '../../contexts/Cart';
-import type Product from '../../models/Product';
+import type { Product } from '../../models/Product';
 import './index.css'
 import LikeButton from '../LikeButton';
 

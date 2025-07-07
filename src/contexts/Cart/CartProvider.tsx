@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type Product from "../../models/Product";
+import type { Product } from "../../models/Product";
 import CartContext from "./CartContext";
 
 

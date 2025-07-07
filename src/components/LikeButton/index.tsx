@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useLikedProducts } from "../../contexts/Liked";
-import type Product from "../../models/Product";
+import type { Product } from "../../models/Product";
 
 type LikeButtonProps = {
   initialLiked?: boolean;

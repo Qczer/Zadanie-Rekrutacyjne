@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import type Product from "../../models/Product";
+import type { Product } from "../../models/Product";
 
 interface LikedContextType {
   likedProducts: Product[];

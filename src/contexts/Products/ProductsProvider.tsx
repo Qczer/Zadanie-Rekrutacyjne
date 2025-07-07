@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import type Product from "../../models/Product";
+import type { Product } from "../../models/Product";
 import ProductsContext from "./ProductsContext";
 import AxiosInstance from "../../api/AxiosInstance";
 
