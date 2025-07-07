@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // <- adres Twojego frontendu
+        policy.WithOrigins("https://mango-mushroom-039bbbc03.2.azurestaticapps.net") // <- adres Twojego frontendu
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
