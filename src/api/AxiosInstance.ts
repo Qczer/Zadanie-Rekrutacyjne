@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.VITE_DB_URL+'/api';
+const BASE_URL = import.meta.env.VITE_DB_URL+'/api';
 
 console.log(process.env.DB_URL_)
 console.log('Base url: ' + BASE_URL)
