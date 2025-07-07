@@ -1,10 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_DB_URL+'/api';
-
-console.log(import.meta.env)
-console.log(import.meta.env.VITE_DB_URL)
-console.log('Base url: ' + BASE_URL)
+const BASE_URL = 'https://zadanierekrutacyjne-bdf0dqexb7hzdjcd.polandcentral-01.azurewebsites.net/api';
 
 const AxiosInstance = axios.create({
   baseURL: BASE_URL, // Zmień na swój backend
