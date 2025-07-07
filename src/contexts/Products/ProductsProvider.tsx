@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Product } from "../../models/Product";
 import ProductsContext from "./ProductsContext";
-// import AxiosInstance from "../../api/AxiosInstance";
+import AxiosInstance from "../../api/AxiosInstance";
 
 const ProductsProvider = ({ children }: { children: React.ReactNode }) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -9,18 +9,17 @@ const ProductsProvider = ({ children }: { children: React.ReactNode }) => {
   const value = useMemo(() => ({ products, setProducts, error, setError }), [products, setProducts, error, setError]);
 
   useEffect(() => {
-    // async function fetchProducts() {
-    //   try {
-    //     const res = await AxiosInstance.get('/Products');
-    //     setProducts(res.data);
-    //   }
-    //   catch (err) {
-    //     console.error(err);
-    //     setError('Nie udało się załadować produktów')
-    //   }
-    // }
-    // fetchProducts();
-    setProducts([{id: 1, name: 'Black T-Shirt', price: 59.99}, {id: 2, name: 'White T-Shirt', price: 59.99}])
+    async function fetchProducts() {
+      try {
+        const res = await AxiosInstance.get('/Products');
+        setProducts(res.data);
+      }
+      catch (err) {
+        console.error(err);
+        setError('Nie udało się załadować produktów')
+      }
+    }
+    fetchProducts();
   }, []);
 
   return (
