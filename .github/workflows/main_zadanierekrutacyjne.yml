@@ -62,4 +62,3 @@ jobs:
           app-name: 'ZadanieRekrutacyjne'
           slot-name: 'Production'
           package: .
-          
