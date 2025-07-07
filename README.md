@@ -12,38 +12,38 @@
 
 ## Opis projektu
 
-Frontend używa React połączony z Web API napisany w C#, który używa SQLite. Aplikacja jest hostowana w chmurze Azure z automatycznym procesem CI/CD.
+Frontend stworzony w React komunikuje się z Web API napisanym w C#, które korzysta z bazy danych SQLite. Całość jest hostowana w chmurze Azure i korzysta z automatycznego procesu CI/CD.
 
 ---
 
 ## Automatyzacja wdrożenia (CI/CD)
 
-- Workflow GitHub Actions uruchamia się po każdym pushu na branchu `main`.
-- Wykonuje się budowanie aplikacji i automatyczne wdrożenie do Azure App Service.
-- Użyte zostały 2 workflowy: jeden do budowania frontendu, a drugi do budowania bazy danych, znajdują się w `.github/workflows/`.
+- Workflow GitHub Actions uruchamia się automatycznie po każdym pushu na gałąź `main`.
+- Proces obejmuje budowanie aplikacji oraz automatyczne wdrożenie do Azure App Service.
+- W repozytorium znajdują się dwa workflowy: jeden do budowy frontendu, drugi do backendu (bazy danych). Znajdziesz je w folderze `.github/workflows/`.
 - Profil publikacji Azure jest przechowywany jako sekret GitHub o nazwie `AZURE_WEBAPP_PUBLISH_PROFILE`.
 
 ---
 
 ## Wdrożenie w Azure
 
-- Aplikacja jest dostępna pod adresem:  
+- Strona frontendowa jest dostępna pod adresem:  
   `https://mango-mushroom-039bbbc03.2.azurestaticapps.net/`
-- API jest dostępne pod adresem:
+- API działa pod adresem:  
   `https://zadanierekrutacyjne-bdf0dqexb7hzdjcd.polandcentral-01.azurewebsites.net/api`
 
 ---
 
 ## Jak korzystać z API
 
-- Wysyłaj żądania HTTPS do endpointów API.
-- Przykład:  
+- Wysyłaj zapytania HTTPS do endpointów API.
+- Przykład zapytania:  
   `GET https://zadanierekrutacyjne-bdf0dqexb7hzdjcd.polandcentral-01.azurewebsites.net/api/products`
-- API zwraca dane w formacie JSON.
+- Odpowiedzi są zwracane w formacie JSON.
 
 ---
 
 ## Wykorzystane usługi Azure
 
-- **Static Web App** – hostowanie strony internetowej.
-- **Azure App Service** – hostowanie bazy danych.
+- **Azure Static Web Apps** – hosting frontendu.
+- **Azure App Service** – hosting backendu (Web API i bazy danych).
