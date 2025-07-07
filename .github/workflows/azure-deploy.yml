@@ -30,6 +30,9 @@ jobs:
       - name: Zip publish folder
         run: zip -r publish.zip ./publish
 
+      - name: Debug publish-profile secret
+        run: echo "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}" | head -n 10
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
