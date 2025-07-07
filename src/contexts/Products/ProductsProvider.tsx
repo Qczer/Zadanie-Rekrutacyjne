@@ -11,7 +11,7 @@ const ProductsProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await AxiosInstance.get('/Products');
+        const res = await AxiosInstance.get('/products');
         setProducts(res.data);
       }
       catch (err) {

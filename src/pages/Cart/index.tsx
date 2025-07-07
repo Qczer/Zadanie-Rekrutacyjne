@@ -22,7 +22,7 @@ const Cart = () => {
 
     console.log(orderData)
 
-    AxiosInstance.post('/Orders', orderData)
+    AxiosInstance.post('/orders', orderData)
     .then(() => {
       setMessage('Your order was completed successfully.')
       clearCart();

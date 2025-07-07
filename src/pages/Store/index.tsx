@@ -11,6 +11,8 @@ const Store = () => {
   const { startSearching } = useLocation().state ?? false;
   const [searching, setSearching] = useState(startSearching);
 
+  console.log(products)
+
   return (
     <div className="container">
       <NavBar searching={searching} onSearch={(value: string) => setFilter(value)} setSearching={(value: boolean) => setSearching(value)}/>
@@ -19,7 +21,7 @@ const Store = () => {
       }
       {(!error && products) &&
         (<div className="products">
-          {products && products.filter(p => filter === '' || p.name.toLowerCase().includes(filter.toLowerCase()) || p.price.toString().includes(filter.toLowerCase())).map((p, index) => (
+          {products.filter(p => filter === '' || p.name.toLowerCase().includes(filter.toLowerCase()) || p.price.toString().includes(filter.toLowerCase())).map((p, index) => (
             <ProductCard product={p} key={index+1}/>
           ))}
         </div>)
