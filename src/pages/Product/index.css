@@ -1,0 +1,12 @@
+.productLayout {
+  display: flex;
+  width: 100%;
+}
+
+.productLayoutImage {
+  width: 60%;
+}
+
+.productLayoutInfo {
+  width: 40%;
+}

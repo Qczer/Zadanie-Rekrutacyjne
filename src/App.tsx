@@ -7,6 +7,7 @@ import Contact from './pages/Contact'
 import ProductsProvider from './contexts/Products/ProductsProvider'
 import CartProvider from './contexts/Cart/CartProvider'
 import LikedProvider from './contexts/Liked/LikedProvider'
+import Product from './pages/Product'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <CartProvider>
         <Routes>
           <Route path="/" element={<Store />} />
+          <Route path="/product/:id" element={<Product />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
