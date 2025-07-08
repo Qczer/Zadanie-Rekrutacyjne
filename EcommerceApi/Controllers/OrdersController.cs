@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EcommerceApi.Data;       // namespace DbContext
 using EcommerceApi.Models;     // namespace modeli
+using EcommerceApi.DTOs;
+using AutoMapper;     // namespace DTO
 
 namespace EcommerceApi.Controllers
 {
@@ -11,75 +13,59 @@ namespace EcommerceApi.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public OrdersController(AppDbContext context)
+        public OrdersController(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<OrderReadDto>>> GetOrders()
         {
             var orders = await _context.Orders
                 .Include(o => o.OrderProducts)
                     .ThenInclude(op => op.Product)
-                .Select(o => new OrderDto
-                {
-                    Id = o.Id,
-                    CreatedAt = o.CreatedAt,
-                    Products = o.OrderProducts.Select(op => new OrderProductDto
-                    {
-                        ProductId = op.ProductId,
-                        ProductName = op.Product.Name,
-                        Quantity = op.Quantity,
-                        UnitPrice = op.UnitPrice
-                    }).ToList()
-                })
                 .ToListAsync();
 
-            return Ok(orders);
+            var ordersDto = _mapper.Map<List<OrderReadDto>>(orders);
+
+            return Ok(ordersDto);
         }
 
         // GET: api/Orders/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderDto>> GetOrder(int id)
+        public async Task<ActionResult<OrderReadDto>> GetOrder(int id)
         {
             var order = await _context.Orders
                 .Include(o => o.OrderProducts)
                     .ThenInclude(op => op.Product)
-                .Where(o => o.Id == id)
-                .Select(o => new OrderDto
-                {
-                    Id = o.Id,
-                    CreatedAt = o.CreatedAt,
-                    Products = o.OrderProducts.Select(op => new OrderProductDto
-                    {
-                        ProductId = op.ProductId,
-                        ProductName = op.Product.Name,
-                        Quantity = op.Quantity,
-                        UnitPrice = op.UnitPrice
-                    }).ToList()
-                })
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(o => o.Id == id);
 
             if (order == null)
                 return NotFound();
 
-            return Ok(order);
+            var orderDto = _mapper.Map<OrderReadDto>(order);
+
+            return Ok(orderDto);
         }
 
         // POST: api/Orders
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder([FromBody] List<CreateOrderProductDto> products)
+        public async Task<ActionResult<OrderReadDto>> PostOrder([FromBody] OrderCreateDto orderDto)
         {
+            if (orderDto.Products == null || !orderDto.Products.Any())
+                return BadRequest("Lista produktów nie może być pusta.");
+
             var order = new Order
             {
                 CreatedAt = DateTime.UtcNow,
                 OrderProducts = new List<OrderProduct>()
             };
 
-            foreach (var item in products)
+            foreach (var item in orderDto.Products)
             {
                 var product = await _context.Products.FindAsync(item.ProductId);
                 if (product == null)
@@ -88,6 +74,7 @@ namespace EcommerceApi.Controllers
                 order.OrderProducts.Add(new OrderProduct
                 {
                     Product = product,
+                    ProductId = product.Id,
                     Quantity = item.Quantity,
                     UnitPrice = product.Price
                 });
@@ -96,31 +83,67 @@ namespace EcommerceApi.Controllers
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
+            // Mapowanie Order na OrderReadDto
+            var orderReadDto = _mapper.Map<OrderReadDto>(order);
+
+            return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, orderReadDto);
         }
 
 
         // PUT: api/Orders/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(int id, Order order)
+        public async Task<IActionResult> PutOrder(int id, [FromBody] OrderCreateDto orderDto)
         {
-            if (id != order.Id)
-                return BadRequest();
+            if (orderDto.Products == null || !orderDto.Products.Any())
+                return BadRequest("Lista produktów nie może być pusta.");
 
-            _context.Entry(order).State = EntityState.Modified;
+            var order = await _context.Orders
+                .Include(o => o.OrderProducts)
+                .FirstOrDefaultAsync(o => o.Id == id);
 
-            try
+            if (order == null)
+                return NotFound();
+
+            // Stara lista produktów
+            var existingOrderProducts = order.OrderProducts.ToList();
+
+            // Nowe dane wejściowe
+            var updatedProducts = orderDto.Products;
+
+            // Aktualizacja istniejących i dodawanie nowych
+            foreach (var item in updatedProducts)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _context.Orders.AnyAsync(e => e.Id == id))
-                    return NotFound();
+                var product = await _context.Products.FindAsync(item.ProductId);
+                if (product == null)
+                    return BadRequest($"Produkt o ID {item.ProductId} nie istnieje.");
+
+                var existing = existingOrderProducts.FirstOrDefault(op => op.ProductId == item.ProductId);
+                if (existing != null)
+                {
+                    // Zaktualizuj ilość i cenę
+                    existing.Quantity = item.Quantity;
+                    existing.UnitPrice = product.Price;
+                    existingOrderProducts.Remove(existing); // usunięty z listy "do usunięcia"
+                }
                 else
-                    throw;
+                {
+                    // Dodaj nowy produkt do zamówienia
+                    order.OrderProducts.Add(new OrderProduct
+                    {
+                        ProductId = product.Id,
+                        Quantity = item.Quantity,
+                        UnitPrice = product.Price
+                    });
+                }
             }
 
+            // Usuń produkty, które nie są już w zamówieniu
+            foreach (var toRemove in existingOrderProducts)
+            {
+                _context.OrderProducts.Remove(toRemove);
+            }
+            
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 

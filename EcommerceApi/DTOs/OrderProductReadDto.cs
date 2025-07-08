@@ -1,10 +1,10 @@
-namespace EcommerceApi.Models
+namespace EcommerceApi.DTOs
 {
 
-  public class OrderProductDto
+  public class OrderProductReadDto
   {
     public int ProductId { get; set; }
-    public string ProductName { get; set; } = null!;
+    public string ProductName { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
   }

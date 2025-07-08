@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EcommerceApi.Data;       // namespace DbContext
-using EcommerceApi.Models;     // namespace modeli
+using EcommerceApi.Models;
+using EcommerceApi.DTOs;
+using AutoMapper;     // namespace modeli
 
 namespace EcommerceApi.Controllers
 {
@@ -10,49 +12,55 @@ namespace EcommerceApi.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ProductsController(AppDbContext context)
+        public ProductsController(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            var products = await _context.Products.ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<ProductReadDto>>(products));
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductReadDto>> GetProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
 
             if (product == null)
                 return NotFound();
 
-            return product;
+            return Ok(_mapper.Map<ProductReadDto>(product));
         }
 
         // POST: api/Products
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<ProductReadDto>> PostProduct(ProductCreateDto productDto)
         {
+            var product = _mapper.Map<Product>(productDto);
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+            var readDto = _mapper.Map<ProductReadDto>(product);
+            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, readDto);
         }
 
         // PUT: api/Products/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutProduct(int id, ProductUpdateDto productDto)
         {
-            if (id != product.Id)
-                return BadRequest();
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+                return NotFound();
 
-            _context.Entry(product).State = EntityState.Modified;
+            _mapper.Map(productDto, product);
 
             try
             {
