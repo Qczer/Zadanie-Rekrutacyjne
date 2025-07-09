@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using EcommerceApi.Models;
 using System.Text.Json;
 
@@ -14,6 +15,12 @@ namespace EcommerceApi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            var stringListComparer = new ValueComparer<List<string>>(
+                (c1, c2) => c1.SequenceEqual(c2), // Funkcja porównująca: zwraca true, jeśli listy mają te same elementy w tej samej kolejności.
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())), // Funkcja generująca hashcode na podstawie zawartości.
+                c => c.ToList() // Funkcja tworząca "migawkę" (kopię) listy.
+            );
+
             // Klucz złożony do tabeli łączącej
             modelBuilder.Entity<OrderProduct>()
                 .HasKey(oi => new { oi.OrderId, oi.ProductId });
@@ -38,14 +45,16 @@ namespace EcommerceApi.Data
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, options),
                     v => !string.IsNullOrEmpty(v) ? JsonSerializer.Deserialize<List<string>>(v, options) ?? new List<string>() : new List<string>()
-                );
+                )
+                .Metadata.SetValueComparer(stringListComparer);
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.Colors)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, options),
                     v => !string.IsNullOrEmpty(v) ? JsonSerializer.Deserialize<List<string>>(v, options) ?? new List<string>() : new List<string>()
-                );
+                )
+                .Metadata.SetValueComparer(stringListComparer);
         }
     }
 }

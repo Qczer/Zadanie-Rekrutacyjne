@@ -28,7 +28,7 @@ const Store = () => {
       }
       {!error &&
         (<div className="products">
-          {products.filter(p => filter === '' || p.name.toLowerCase().includes(filter.toLowerCase()) || p.price.toString().includes(filter.toLowerCase())).map((p, index) => (
+          {(filter === '' ? products : products.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()) || p.price.toString().includes(filter.toLowerCase()))).map((p, index) => (
             <ProductCard product={p} key={index+1}/>
           ))}
         </div>)
