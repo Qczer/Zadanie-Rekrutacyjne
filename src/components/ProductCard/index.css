@@ -43,25 +43,76 @@
   color: #aaa;
 }
 
-.addToCartBtn {
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  background-color: #4f80ff;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
-  box-shadow: 0 2px 6px rgba(79,128,255,0.7);
-}
-
-.addToCartBtn:hover {
-  background-color: #3a5edd;
-  box-shadow: 0 4px 12px rgba(58,94,221,0.9);
-}
-
 .productCard div.colors {
   display: flex;
   gap: 5px;
+}
+
+.sizes-scroll-container {
+  width: 100%;             /* Take up the full width of the card */
+  overflow-x: auto;        /* Enable horizontal scrolling */
+  overflow-y: hidden;
+  
+  /* Optional: Add custom scrollbar for dark theme */
+  scrollbar-width: thin;
+  scrollbar-color: #555 #2e2e2e;
+}
+
+/* More specific scrollbar styles for Webkit */
+.sizes-scroll-container::-webkit-scrollbar {
+  height: 6px;
+}
+.sizes-scroll-container::-webkit-scrollbar-track {
+  background: #2e2e2e;
+}
+.sizes-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 10px;
+}
+
+.sizes-flex-group {
+  display: flex;           /* Make it a flex container */
+  justify-content: center; /* ✨ This is the key to centering */
+  padding: 5px;            /* Give it some breathing room */
+  gap: 5px;
+  
+  /* This prevents items from being pushed out of the container on some browsers */
+  width: max-content;
+  margin: 0 auto; /* An extra layer of centering for robustness */
+}
+
+.sizes-flex-group div { /* Or whatever class your SizeButton has */
+  flex-shrink: 0;
+}
+
+.productCard div.sizes {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  overflow: auto;
+  padding: 3px;
+  padding-bottom: 8px;
+  width: 100%;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
+}
+
+.productCard div.sizes::-webkit-scrollbar {
+  height: 6px;
+}
+
+.productCard div.sizes::-webkit-scrollbar-track {
+  background: #2e2e2e;
+  border-radius: 10px;
+}
+
+.productCard div.sizes::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 10px;
+}
+
+.productCard div.sizes::-webkit-scrollbar-thumb:hover {
+  background: #777;
 }

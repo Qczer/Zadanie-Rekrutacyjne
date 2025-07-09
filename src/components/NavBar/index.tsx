@@ -2,14 +2,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './index.css'
 import { FiSearch, FiShoppingCart } from 'react-icons/fi'
 import { useCartProducts } from '../../contexts/Cart';
+import FilterButton from '../Buttons/FilterButton';
+import type { Dispatch, SetStateAction } from 'react';
 
 type NavBarProps = {
   searching?: boolean;
   onSearch?: (value: string) => void;
   setSearching?: (value: boolean) => void;
+  showFilterButton?: boolean;
+  selectedColorFilter?: string[];
+  setSelectedColorFilter?: Dispatch<SetStateAction<string[]>>;
 }
 
-const NavBar = ({searching, onSearch, setSearching}: NavBarProps) => {
+const NavBar = ({searching, onSearch, setSearching, showFilterButton, selectedColorFilter, setSelectedColorFilter}: NavBarProps) => {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
   const { cartProducts } = useCartProducts()
@@ -21,6 +26,7 @@ const NavBar = ({searching, onSearch, setSearching}: NavBarProps) => {
         <span onClick={() => {if(pathname !== '/contact') navigate('/contact')}}>Contact</span>
       </div>
       <div>
+        {(showFilterButton && selectedColorFilter && setSelectedColorFilter) && <FilterButton selectedColorFilter={selectedColorFilter} setSelectedColorFilter={setSelectedColorFilter}/>}
         {(searching && onSearch) && (
           <input type='text' className="searchInput" onChange={(e) => onSearch(e.target.value)}/>
         )}

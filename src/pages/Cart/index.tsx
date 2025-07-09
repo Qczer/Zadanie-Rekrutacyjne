@@ -3,11 +3,15 @@ import NavBar from "../../components/NavBar";
 import { useCartProducts } from '../../contexts/Cart';
 import AxiosInstance from '../../api/AxiosInstance';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import LikeButton from '../../components/Buttons/LikeButton';
 
 const Cart = () => {
+  const navigate = useNavigate();
   const {
     cartProducts,
     addToCart,
+    setProductAmount,
     decreaseFromCart,
     removeFromCart,
     clearCart
@@ -16,7 +20,7 @@ const Cart = () => {
 
   function orderCart() {
     const orderData = cartProducts.map(item => ({
-      productId: item.product.id,
+      productId: item.id,
       quantity: item.amount
     }));
 
@@ -30,6 +34,8 @@ const Cart = () => {
       setMessage('An error occurred while processing your order')
     });
   }
+
+  const [likeVisible, setLikeVisible] = useState<[number, boolean]>([-1, false]);
 
   return (
     <div className="cart-container">
@@ -45,15 +51,23 @@ const Cart = () => {
           <div>
             {cartProducts.map((p, index) => (
               <div key={index+1} className="cart-item">
-                <div className="item-info">
-                  <img src={`/assets/products/${p.product.name.toLowerCase()}.png`} alt={p.product.name} height={150}/>
-                  <p className="item-name">{p.product.name}</p>
+                <div className="item-info" onClick={() => {const params = [p.color && `color=${p.color}`,p.size && `size=${p.size}`].filter(Boolean).join('&'); navigate(`/product/${p.product.id}${params ? '?'+params : ''}`)}}>
+                  <div className="item-image" onMouseEnter={() => setLikeVisible([index, true])} onMouseLeave={() => setLikeVisible([-1, false])}>
+                    <LikeButton product={p.product} top={-10} visible={index == likeVisible[0] && likeVisible[1]}/>
+                    <img src={`${p.product.imageUrl}${p.color ? '_'+p.color.toLowerCase() : ''}.png`} alt={p.product.name} height={150}/>
+                  </div>
+                  <div className="item-properties">
+                    <p className="item-name">{p.product.name}</p>
+                    <p style={{color: 'hsl(0, 0%, 90%)'}}>{p.product.price}</p>
+                    <p style={{color: 'hsl(0, 0%, 70%)'}}>{p.size}</p>
+                    <p style={{color: 'hsl(0, 0%, 70%)'}}>{p.color}</p>
+                  </div>
                 </div>
                 <div className="item-controls">
-                  <button onClick={() => decreaseFromCart(p.product)} className="btn control-btn">−</button>
-                  <span className="item-amount">{p.amount}</span>
-                  <button onClick={() => addToCart(p.product)} className="btn control-btn">+</button>
-                  <button onClick={() => removeFromCart(p.product)} className="btn delete-btn">🗑️</button>
+                  <button onClick={() => decreaseFromCart(p.id)} className="btn control-btn">−</button>
+                  <input type='number' className="item-amount" value={p.amount} onChange={(e) => {if(e.target.value !== '') setProductAmount(p.id, +e.target.value)}}></input>
+                  <button onClick={() => addToCart(p.product, p.color, p.size)} className="btn control-btn">+</button>
+                  <button onClick={() => removeFromCart(p.id)} className="btn delete-btn">🗑️</button>
                 </div>
               </div>
             ))}

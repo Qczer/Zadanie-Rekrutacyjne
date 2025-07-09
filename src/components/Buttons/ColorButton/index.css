@@ -1,9 +1,14 @@
 .colorButton {
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
 }
 
 .colorButton:hover {
-  outline: 1px solid #4f80ff;
+  outline: 2px solid #4f80ff;
+}
+
+.colorButton.active {
+  outline: 2px solid #4f80ff;
 }

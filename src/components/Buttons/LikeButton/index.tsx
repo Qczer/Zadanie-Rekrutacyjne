@@ -1,19 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useLikedProducts } from "../../../contexts/Liked";
 import type { Product } from "../../../models/Product";
 
+import './index.css'
+
 type LikeButtonProps = {
+  visible?: boolean;
   initialLiked?: boolean;
   onToggle?: (liked: boolean) => void;
   product?: Product;
+  top?: number;
+  right?: number;
 };
 
-const LikeButton = ({ initialLiked = false, onToggle, product }: LikeButtonProps) => {
+const LikeButton = ({ visible = true, initialLiked = false, onToggle, product, top, right }: LikeButtonProps) => {
   const { likedProducts, addToLiked, removeFromLiked } = useLikedProducts();
   if(product && likedProducts.some(p => p.name === product.name)) initialLiked = true;
 
   const [liked, setLiked] = useState(initialLiked);
+
+  useEffect(() => {
+    setLiked((product && likedProducts.some(p => p.name === product.name)) ?? false);
+  }, [likedProducts, product])
+
+  if(!visible) return;
 
   const toggleLike = () => {
     const newLiked = !liked;
@@ -33,14 +44,10 @@ const LikeButton = ({ initialLiked = false, onToggle, product }: LikeButtonProps
   return (
     <button
       onClick={(e) => {e.stopPropagation(); toggleLike()}}
+      className="likeButton"
       style={{
-        background: "transparent",
-        border: "none",
-        cursor: "pointer",
-        padding: 0,
-        top: 5,
-        right: 5,
-        position: 'absolute'
+        top: top ?? 5,
+        right: right ?? 5,
       }}
       aria-label={liked ? "Unlike" : "Like"}
     >
