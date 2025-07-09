@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { useLikedProducts } from "../../contexts/Liked";
-import type { Product } from "../../models/Product";
+import { useLikedProducts } from "../../../contexts/Liked";
+import type { Product } from "../../../models/Product";
 
 type LikeButtonProps = {
   initialLiked?: boolean;
@@ -32,7 +32,7 @@ const LikeButton = ({ initialLiked = false, onToggle, product }: LikeButtonProps
 
   return (
     <button
-      onClick={toggleLike}
+      onClick={(e) => {e.stopPropagation(); toggleLike()}}
       style={{
         background: "transparent",
         border: "none",

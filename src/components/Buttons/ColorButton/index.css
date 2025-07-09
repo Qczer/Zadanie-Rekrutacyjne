@@ -1,0 +1,9 @@
+.colorButton {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+.colorButton:hover {
+  outline: 1px solid #4f80ff;
+}

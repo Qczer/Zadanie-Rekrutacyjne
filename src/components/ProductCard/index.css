@@ -60,3 +60,8 @@
   background-color: #3a5edd;
   box-shadow: 0 4px 12px rgba(58,94,221,0.9);
 }
+
+.productCard div.colors {
+  display: flex;
+  gap: 5px;
+}
