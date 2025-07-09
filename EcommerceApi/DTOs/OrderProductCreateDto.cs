@@ -6,10 +6,10 @@ namespace EcommerceApi.DTOs
   public class OrderProductCreateDto
   {
     [Required]
-    public int ProductId { get; set; }
-    [Range(1, int.MaxValue)]
+    public int ProductVariantId { get; set; }
+
+    [Required]
+    [Range(1, 100, ErrorMessage = "Quantity must be between 1 and 100.")]
     public int Quantity { get; set; }
-    [Range(0.01, double.MaxValue)]
-    public decimal UnitPrice { get; set; }
   }
 }

@@ -19,9 +19,14 @@ const Cart = () => {
   const [message, setMessage] = useState('')
 
   function orderCart() {
+    console.log(cartProducts.map(item => ({
+      ProductVariantId: item.id,
+      Quantity: item.amount
+    })))
+    return;
     const orderData = cartProducts.map(item => ({
-      productId: item.id,
-      quantity: item.amount
+      ProductVariantId: item.id,
+      Quantity: item.amount
     }));
 
     AxiosInstance.post('/orders', orderData)
