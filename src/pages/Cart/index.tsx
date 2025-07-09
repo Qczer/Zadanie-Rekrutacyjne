@@ -67,7 +67,7 @@ const Cart = () => {
                   <button onClick={() => decreaseFromCart(p.id)} className="btn control-btn">−</button>
                   <input type='number' className="item-amount" value={p.amount} onChange={(e) => {if(e.target.value !== '') setProductAmount(p.id, +e.target.value)}}></input>
                   <button onClick={() => addToCart(p.product, p.color, p.size)} className="btn control-btn">+</button>
-                  <button onClick={() => removeFromCart(p.id)} className="btn delete-btn"><img src="assets/trash.svg" alt="delete"/></button>
+                  <button onClick={() => removeFromCart(p.id)} className="btn delete-btn"><img src="assets/trash.svg" alt="trash" width={25}/></button>
                 </div>
               </div>
             ))}
