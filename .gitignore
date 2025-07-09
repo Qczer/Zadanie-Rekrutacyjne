@@ -15,7 +15,26 @@ dist
 dist-ssr
 *.local
 
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+ecommerce.db  # <--- Dodaj nazwę swojej bazy danych, aby jej nie wysyłać!
+
 # Editor directories and files
+.vs/
 .vscode/*
 !.vscode/extensions.json
 .idea
