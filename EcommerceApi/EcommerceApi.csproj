@@ -20,8 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- This tells the dotnet publish command to NOT include this file in the output. -->
-    <Content Update="ecommerce.db" ExcludeFromPublish="true" />
+    <None Include="ecommerce.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- This tells the 'dotnet publish' command to NEVER include this file in the output folder. -->
+    <Content Update="ecommerce.db" CopyToPublishDirectory="Never" />
   </ItemGroup>
 
 </Project>
