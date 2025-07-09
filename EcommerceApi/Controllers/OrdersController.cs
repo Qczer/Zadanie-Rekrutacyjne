@@ -67,9 +67,9 @@ namespace EcommerceApi.Controllers
 
             foreach (var item in orderDto.Products)
             {
-                var product = await _context.Products.FindAsync(item.ProductId);
+                var product = await _context.Products.FindAsync(item.ProductVariantId);
                 if (product == null)
-                    return BadRequest($"Produkt o ID {item.ProductId} nie istnieje.");
+                    return BadRequest($"Produkt o ID {item.ProductVariantId} nie istnieje.");
 
                 order.OrderProducts.Add(new OrderProduct
                 {
@@ -113,11 +113,11 @@ namespace EcommerceApi.Controllers
             // Aktualizacja istniejących i dodawanie nowych
             foreach (var item in updatedProducts)
             {
-                var product = await _context.Products.FindAsync(item.ProductId);
+                var product = await _context.Products.FindAsync(item.ProductVariantId);
                 if (product == null)
-                    return BadRequest($"Produkt o ID {item.ProductId} nie istnieje.");
+                    return BadRequest($"Produkt o ID {item.ProductVariantId} nie istnieje.");
 
-                var existing = existingOrderProducts.FirstOrDefault(op => op.ProductId == item.ProductId);
+                var existing = existingOrderProducts.FirstOrDefault(op => op.ProductId == item.ProductVariantId);
                 if (existing != null)
                 {
                     // Zaktualizuj ilość i cenę

@@ -23,7 +23,7 @@ namespace EcommerceApi.Data
 
             // Klucz złożony do tabeli łączącej
             modelBuilder.Entity<OrderProduct>()
-                .HasKey(oi => new { oi.OrderId, oi.ProductId });
+                .HasKey(oi => new { oi.OrderId, oi.ProductVariantId });
 
             // Relacje
             modelBuilder.Entity<OrderProduct>()
@@ -34,7 +34,7 @@ namespace EcommerceApi.Data
             modelBuilder.Entity<OrderProduct>()
                 .HasOne(oi => oi.Product)
                 .WithMany(p => p.OrderProducts)
-                .HasForeignKey(oi => oi.ProductId);
+                .HasForeignKey(oi => oi.ProductVariantId);
 
             // NOWA KONFIGURACJA DLA LIST W PRODUKCIE
             // Konwersja listy stringów (Sizes i Colors) na string JSON i z powrotem
