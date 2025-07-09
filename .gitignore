@@ -27,21 +27,6 @@ bld/
 [Bb]in/
 [Oo]bj/
 
-# Ignore SQLite database files
-*.db
-*.sqlite
-*.sqlite3
-
-# It's also good practice to ignore the write-ahead log and journal files
-*.db-wal
-*.db-shm
-
-# Databases
-*.db
-*.sqlite
-*.sqlite3
-ecommerce.db  # <--- Dodaj nazwę swojej bazy danych, aby jej nie wysyłać!
-
 # Editor directories and files
 .vs/
 .vscode/*
