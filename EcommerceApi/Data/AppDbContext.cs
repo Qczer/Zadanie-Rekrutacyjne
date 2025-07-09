@@ -37,14 +37,14 @@ namespace EcommerceApi.Data
                 .Property(p => p.Sizes)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, options),
-                    v => JsonSerializer.Deserialize<List<string>>(v, options) ?? new List<string>()
+                    v => !string.IsNullOrEmpty(v) ? JsonSerializer.Deserialize<List<string>>(v, options) ?? new List<string>() : new List<string>()
                 );
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.Colors)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, options),
-                    v => JsonSerializer.Deserialize<List<string>>(v, options) ?? new List<string>()
+                    v => !string.IsNullOrEmpty(v) ? JsonSerializer.Deserialize<List<string>>(v, options) ?? new List<string>() : new List<string>()
                 );
         }
     }

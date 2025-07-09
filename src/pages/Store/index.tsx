@@ -15,7 +15,7 @@ const Store = () => {
     return (
       <div className="container">
         <NavBar />
-        <h2>Loading product...</h2>
+        <h2>Loading products...</h2>
       </div>
     )
   }
