@@ -19,10 +19,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="ecommerce.db" Condition="Exists('your_database_name.db')">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
