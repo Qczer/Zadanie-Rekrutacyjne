@@ -68,9 +68,13 @@ const Store = () => {
       <NavBar searching={searching} onSearch={(value: string) => setFilter(value)} setSearching={(value: boolean) => setSearching(value)} showFilterButton={true} selectedColorFilter={selectedColorFilter} setSelectedColorFilter={setSelectedColorFilter} availableColors={availableColors}/>
       <div className="products">
         {filteredProducts.map((p, index) => {
-          const initialColorForCard = selectedColorFilter.find(filterColor => 
+          let initialColorForCard = selectedColorFilter.find(filterColor => 
             p.variants.some(variant => variant.color === filterColor)
           );
+
+          if (!initialColorForCard && p.variants?.length > 0) {
+            initialColorForCard = p.variants[0].color;
+          }
 
           return (
             <ProductCard product={p} key={index+1} startColor={initialColorForCard} />

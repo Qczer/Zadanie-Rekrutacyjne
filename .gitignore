@@ -27,6 +27,14 @@ bld/
 [Bb]in/
 [Oo]bj/
 
+dist
+
+*.db
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+
 # Editor directories and files
 .vs/
 .vscode/*
