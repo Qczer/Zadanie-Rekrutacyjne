@@ -1,30 +1,26 @@
 import { useState, type Dispatch, type SetStateAction } from "react";
 
 import './index.css'
-import { useProducts } from "../../../contexts/Products";
 import ColorButton from "../ColorButton";
 
 type FilterProps = {
   selectedColorFilter: string[];
   setSelectedColorFilter: Dispatch<SetStateAction<string[]>>;
+  availableColors: string[];
 }
 
-const FilterButton = ({selectedColorFilter, setSelectedColorFilter}: FilterProps) => {
-  const { products } = useProducts();
+const FilterButton = ({selectedColorFilter, setSelectedColorFilter, availableColors}: FilterProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAnimation, setShowAnimation] = useState('');
 
-  const allColorsWithDuplicates = products.flatMap(p => p.colors);
-  const uniqueColors = [...new Set(allColorsWithDuplicates)];
-
   const handleColorClick = (clickedColor: string) => {
     setSelectedColorFilter(prevColors => {
-      // Sprawdź, czy kolor już jest w tablicy filtrów
+      // Check if the color is already in the filter array
       if (prevColors.includes(clickedColor)) {
-        // Jeśli tak, zwróć nową tablicę bez tego koloru
+        // If yes, return a new array without that color
         return prevColors.filter(c => c !== clickedColor);
       } else {
-        // Jeśli nie, zwróć nową tablicę z dodanym kolorem
+        // If no, return a new array with the added color
         return [...prevColors, clickedColor];
       }
     });
@@ -45,9 +41,9 @@ const FilterButton = ({selectedColorFilter, setSelectedColorFilter}: FilterProps
           <div className='filtersColors'>
             <h2>Kolory</h2>
             <div>
-              { uniqueColors.map((color, index) => {
+              {availableColors.map((color, index) => {
                 return (
-                  <ColorButton key={index+1} color={color} active={selectedColorFilter.includes(color)} onClick={() => handleColorClick(color)}/>
+                  <ColorButton key={index+1} color={color} active={selectedColorFilter.includes(color)} onClick={() => handleColorClick(color)} />
                 )
               })}
             </div>

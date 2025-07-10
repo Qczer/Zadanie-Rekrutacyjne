@@ -8,31 +8,33 @@ namespace EcommerceApi.Validators
   {
     public ProductCreateDtoValidator()
     {
-      RuleFor(p => p.Name).NotEmpty().MaximumLength(100);
-      RuleFor(p => p.Price).GreaterThan(0);
+      RuleFor(p => p.Name)
+        .NotEmpty().WithMessage("Product name is required.")
+        .MaximumLength(100);
+
+      RuleFor(p => p.Description)
+        .MaximumLength(1000).WithMessage("Description cannot exceed 1000 characters.");
 
       RuleFor(p => p.ImageUrl)
-        .NotEmpty().WithMessage("URL obrazka jest wymagany.")
-        .Must(BeAValidUrl).WithMessage("Podany URL obrazka jest nieprawidłowy.");
+        .Must(BeAValidUrl).WithMessage("The provided Image URL is not a valid URL.")
+        .When(p => !string.IsNullOrEmpty(p.ImageUrl)); // Only validate if a URL is provided.
 
-      RuleFor(p => p.Sizes)
-        .NotNull().WithMessage("Lista rozmiarów nie może być nullem.");
+      RuleFor(p => p.Variants)
+        .NotEmpty().WithMessage("A product must have at least one variant.");
 
-      RuleForEach(p => p.Sizes)
-        .NotEmpty().WithMessage("Rozmiar nie może być pusty.");
-
-      RuleFor(p => p.Colors)
-        .NotNull().WithMessage("Lista kolorów nie może być nullem.");
-
-      RuleForEach(p => p.Colors)
-        .NotEmpty().WithMessage("Kolor nie może być pusty.");
+      // This line tells FluentValidation to use our other validator
+      // for each item in the Variants list.
+      RuleForEach(p => p.Variants)
+        .SetValidator(new ProductVariantCreateDtoValidator());
     }
 
-    // Prywatna metoda pomocnicza do walidacji URL
     private bool BeAValidUrl(string url)
     {
-      if (url.StartsWith("assets")) return true;
-      return Uri.TryCreate(url, UriKind.Absolute, out _);
+      if (string.IsNullOrEmpty(url)) return true; // Allow empty
+      if (url.StartsWith("assets")) return true;   // Allow local asset paths
+      
+      return Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
+        && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
     }
   }
 }

@@ -4,7 +4,7 @@ namespace EcommerceApi.DTOs
 { 
   public class OrderCreateDto
   {
-    [Required]
-    public List<OrderProductCreateDto> Products { get; set; } = new List<OrderProductCreateDto>();
+    [Required, MinLength(1)]
+    public List<OrderItemCreateDto> Items { get; set; } = new();
   }
 }

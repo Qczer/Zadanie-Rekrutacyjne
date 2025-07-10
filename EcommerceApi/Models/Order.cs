@@ -5,6 +5,6 @@ namespace EcommerceApi.Models
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public List<OrderProduct> OrderProducts { get; set; } = new();
+        public List<OrderItem> OrderItems { get; set; } = new();
     }
 }

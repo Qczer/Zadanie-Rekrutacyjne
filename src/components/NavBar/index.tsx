@@ -12,9 +12,10 @@ type NavBarProps = {
   showFilterButton?: boolean;
   selectedColorFilter?: string[];
   setSelectedColorFilter?: Dispatch<SetStateAction<string[]>>;
+  availableColors?: string[];
 }
 
-const NavBar = ({searching, onSearch, setSearching, showFilterButton, selectedColorFilter, setSelectedColorFilter}: NavBarProps) => {
+const NavBar = ({searching, onSearch, setSearching, showFilterButton, selectedColorFilter, setSelectedColorFilter, availableColors}: NavBarProps) => {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
   const { cartProducts } = useCartProducts()
@@ -26,7 +27,7 @@ const NavBar = ({searching, onSearch, setSearching, showFilterButton, selectedCo
         <span onClick={() => {if(pathname !== '/contact') navigate('/contact')}}>Contact</span>
       </div>
       <div>
-        {(showFilterButton && selectedColorFilter && setSelectedColorFilter) && <FilterButton selectedColorFilter={selectedColorFilter} setSelectedColorFilter={setSelectedColorFilter}/>}
+        {(showFilterButton && selectedColorFilter && setSelectedColorFilter && availableColors) && <FilterButton selectedColorFilter={selectedColorFilter} setSelectedColorFilter={setSelectedColorFilter} availableColors={availableColors}/>}
         {(searching && onSearch) && (
           <input type='text' className="searchInput" onChange={(e) => onSearch(e.target.value)}/>
         )}

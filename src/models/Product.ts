@@ -1,8 +1,9 @@
+import type { ProductVariant } from "./ProductVariant";
+
 export interface Product {
   id: number;
   name: string;
-  price: number;
   imageUrl: string;
-  sizes: string[];
-  colors: string[];
+  description: string;
+  variants: ProductVariant[];
 }

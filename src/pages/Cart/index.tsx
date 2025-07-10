@@ -19,15 +19,14 @@ const Cart = () => {
   const [message, setMessage] = useState('')
 
   function orderCart() {
-    console.log(cartProducts.map(item => ({
-      ProductVariantId: item.id,
-      Quantity: item.amount
-    })))
-    return;
-    const orderData = cartProducts.map(item => ({
-      ProductVariantId: item.id,
-      Quantity: item.amount
-    }));
+    const orderData = {
+      items: cartProducts.map(item => ({
+        productVariantId: item.variant.id, // Use the variant's ID
+        quantity: item.amount
+      }))
+    };
+
+    console.log(orderData)
 
     AxiosInstance.post('/orders', orderData)
     .then(() => {
@@ -35,12 +34,13 @@ const Cart = () => {
       clearCart();
     })
     .catch(error => {
-      console.error('An error occurred while processing your order:', error.response?.data ?? error.message);
-      setMessage('An error occurred while processing your order')
+      const errorMessage = error.response?.data?.title || error.response?.data || 'An error occurred while processing your order';
+      console.error('An error occurred while processing your order:', errorMessage);
+      setMessage(errorMessage);
     });
   }
 
-  const [likeVisible, setLikeVisible] = useState<[number, boolean]>([-1, false]);
+  const [likeVisible, setLikeVisible] = useState<[string, boolean]>(['', false]);
 
   return (
     <div className="cart-container">
@@ -54,25 +54,25 @@ const Cart = () => {
           <p className="cart-empty">Your cart is empty.</p>
         ) : (
           <div>
-            {cartProducts.map((p, index) => (
+            {cartProducts.map((item, index) => (
               <div key={index+1} className="cart-item">
-                <div className="item-info" onClick={() => {const params = [p.color && `color=${p.color}`,p.size && `size=${p.size}`].filter(Boolean).join('&'); navigate(`/product/${p.product.id}${params ? '?'+params : ''}`)}}>
-                  <div className="item-image" onMouseEnter={() => setLikeVisible([index, true])} onMouseLeave={() => setLikeVisible([-1, false])}>
-                    <LikeButton product={p.product} top={-10} visible={index == likeVisible[0] && likeVisible[1]}/>
-                    <img src={`${p.product.imageUrl}${p.color ? '_'+p.color.toLowerCase() : ''}.png`} alt={p.product.name} height={150}/>
+                <div className="item-info" onClick={() => navigate(`/product/${item.product.id}?variant=${item.variant.id}`)}>
+                  <div className="item-image" onMouseEnter={() => setLikeVisible([item.id, true])} onMouseLeave={() => setLikeVisible(['', false])}>
+                    <LikeButton product={item.product} top={-10} visible={item.id == likeVisible[0] && likeVisible[1]}/>
+                    <img src={`${item.product.imageUrl}${item.variant.color ? '_'+item.variant.color.toLowerCase() : ''}.png`} alt={item.product.name} height={150}/>
                   </div>
                   <div className="item-properties">
-                    <p className="item-name">{p.product.name}</p>
-                    <p style={{color: 'hsl(0, 0%, 90%)'}}>{p.product.price}</p>
-                    <p style={{color: 'hsl(0, 0%, 70%)'}}>{p.size}</p>
-                    <p style={{color: 'hsl(0, 0%, 70%)'}}>{p.color}</p>
+                    <p className="item-name">{item.product.name}</p>
+                    <p style={{color: 'hsl(0, 0%, 90%)'}}>{item.variant.unitPrice}</p>
+                    <p style={{color: 'hsl(0, 0%, 70%)'}}>{item.variant.size}</p>
+                    <p style={{color: 'hsl(0, 0%, 70%)'}}>{item.variant.color}</p>
                   </div>
                 </div>
                 <div className="item-controls">
-                  <button onClick={() => decreaseFromCart(p.id)} className="btn control-btn">−</button>
-                  <input type='number' className="item-amount" value={p.amount} onChange={(e) => {if(e.target.value !== '') setProductAmount(p.id, +e.target.value)}}></input>
-                  <button onClick={() => addToCart(p.product, p.color, p.size)} className="btn control-btn">+</button>
-                  <button onClick={() => removeFromCart(p.id)} className="btn delete-btn"><img src="assets/trash.svg" alt="trash" width={25}/></button>
+                  <button onClick={() => decreaseFromCart(item.id)} className="btn control-btn">−</button>
+                  <input type='number' className="item-amount" value={item.amount} onChange={(e) => {if(e.target.value !== '') setProductAmount(item.id, +e.target.value)}}></input>
+                  <button onClick={() => addToCart(item.product, item.variant)} className="btn control-btn">+</button>
+                  <button onClick={() => removeFromCart(item.id)} className="btn delete-btn"><img src="assets/trash.svg" alt="trash" width={25}/></button>
                 </div>
               </div>
             ))}

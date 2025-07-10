@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://zadanierekrutacyjne-bdf0dqexb7hzdjcd.polandcentral-01.azurewebsites.net/api';
+const BASE_URL = 'http://localhost:5238/api';
 
 const AxiosInstance = axios.create({
   baseURL: BASE_URL, // Zmień na swój backend

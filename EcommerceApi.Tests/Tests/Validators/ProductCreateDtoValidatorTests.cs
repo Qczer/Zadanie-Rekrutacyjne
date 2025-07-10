@@ -15,40 +15,23 @@ namespace EcommerceApi.Tests.Validators
             _validator = new ProductCreateDtoValidator();
         }
 
+        // --- Tests for Product-level properties ---
+
         [Fact]
         public void Should_Have_Error_When_Name_Is_Empty()
         {
             var model = new ProductCreateDto { Name = "" };
             var result = _validator.TestValidate(model);
-            result.ShouldHaveValidationErrorFor(p => p.Name);
+            result.ShouldHaveValidationErrorFor(p => p.Name)
+                .WithErrorMessage("Product name is required.");
         }
 
         [Fact]
         public void Should_Not_Have_Error_When_Name_Is_Specified()
         {
-            var model = new ProductCreateDto { Name = "Test Product" };
+            var model = new ProductCreateDto { Name = "Test Product", Variants = { new ProductVariantCreateDto { Color="Red", Size="S", UnitPrice=1, StockQuantity=1} } };
             var result = _validator.TestValidate(model);
             result.ShouldNotHaveValidationErrorFor(p => p.Name);
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-10)]
-        public void Should_Have_Error_When_Price_Is_Not_Positive(decimal price)
-        {
-            var model = new ProductCreateDto { Price = price };
-            var result = _validator.TestValidate(model);
-            result.ShouldHaveValidationErrorFor(p => p.Price);
-        }
-
-        // --- TESTY DLA NOWYCH PÓL ---
-
-        [Fact]
-        public void Should_Have_Error_When_ImageUrl_Is_Empty()
-        {
-            var model = new ProductCreateDto { ImageUrl = "" };
-            var result = _validator.TestValidate(model);
-            result.ShouldHaveValidationErrorFor(p => p.ImageUrl);
         }
 
         [Fact]
@@ -57,41 +40,76 @@ namespace EcommerceApi.Tests.Validators
             var model = new ProductCreateDto { ImageUrl = "not-a-valid-url" };
             var result = _validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(p => p.ImageUrl)
-                .WithErrorMessage("Podany URL obrazka jest nieprawidłowy.");
+                .WithErrorMessage("The provided Image URL is not a valid URL.");
         }
 
         [Fact]
-        public void Should_Not_Have_Error_When_ImageUrl_Is_Valid()
+        public void Should_Not_Have_Error_When_ImageUrl_Is_Valid_Http()
         {
-            var model = new ProductCreateDto { ImageUrl = "https://example.com/image.jpg" };
+            var model = new ProductCreateDto { ImageUrl = "http://example.com/image.jpg" };
             var result = _validator.TestValidate(model);
             result.ShouldNotHaveValidationErrorFor(p => p.ImageUrl);
         }
 
         [Fact]
-        public void Should_Have_Error_When_Sizes_List_Contains_Empty_String()
+        public void Should_Not_Have_Error_When_ImageUrl_Is_Local_Asset()
         {
-            var model = new ProductCreateDto { Sizes = new List<string> { "S", "", "L" } };
+            var model = new ProductCreateDto { ImageUrl = "assets/images/local.png" };
             var result = _validator.TestValidate(model);
-            result.ShouldHaveValidationErrorFor("Sizes[1]") // FluentValidation wskazuje na konkretny element
-                .WithErrorMessage("Rozmiar nie może być pusty.");
+            result.ShouldNotHaveValidationErrorFor(p => p.ImageUrl);
+        }
+
+        // --- Tests for the Variants list ---
+
+        [Fact]
+        public void Should_Have_Error_When_Variants_List_Is_Empty()
+        {
+            var model = new ProductCreateDto
+            {
+                Name = "Product with no variants",
+                Variants = new List<ProductVariantCreateDto>() // Empty list
+            };
+            var result = _validator.TestValidate(model);
+            result.ShouldHaveValidationErrorFor(p => p.Variants)
+                .WithErrorMessage("A product must have at least one variant.");
         }
 
         [Fact]
-        public void Should_Not_Have_Error_For_Valid_Sizes_List()
+        public void Should_Have_Error_When_A_Variant_In_The_List_Is_Invalid()
         {
-            var model = new ProductCreateDto { Sizes = new List<string> { "S", "M", "L" } };
+            // This test ensures the nested validator is working.
+            var model = new ProductCreateDto
+            {
+                Name = "Test Product",
+                Variants = new List<ProductVariantCreateDto>
+                {
+                    new() { Color = "Blue", Size = "M", UnitPrice = 19.99m, StockQuantity = 10 },
+                    new() { Color = "", Size = "L", UnitPrice = 19.99m, StockQuantity = 5 } // Invalid variant
+                }
+            };
             var result = _validator.TestValidate(model);
-            result.ShouldNotHaveValidationErrorFor(p => p.Sizes);
+
+            // Check for the specific error from the nested validator
+            result.ShouldHaveValidationErrorFor("Variants[1].Color")
+                .WithErrorMessage("Variant color cannot be empty.");
         }
 
         [Fact]
-        public void Should_Not_Have_Error_When_Colors_List_Is_Empty()
+        public void Should_Not_Have_Any_Errors_For_A_Completely_Valid_ProductCreateDto()
         {
-            // Pusta lista jest dozwolona, błąd jest tylko gdy jest null lub zawiera puste stringi
-            var model = new ProductCreateDto { Colors = new List<string>() };
+            var model = new ProductCreateDto
+            {
+                Name = "Fully Valid Product",
+                Description = "A great product.",
+                ImageUrl = "https://example.com/image.jpg",
+                Variants = new List<ProductVariantCreateDto>
+                {
+                    new() { Color = "Red", Size = "S", UnitPrice = 29.99m, StockQuantity = 100 }
+                }
+            };
+
             var result = _validator.TestValidate(model);
-            result.ShouldNotHaveValidationErrorFor(p => p.Colors);
+            result.ShouldNotHaveAnyValidationErrors();
         }
     }
 }

@@ -4,6 +4,7 @@ namespace EcommerceApi.DTOs
   {
     public int Id { get; set; }
     public DateTime CreatedAt { get; set; }
-    public List<OrderProductReadDto> Products { get; set; } = new List<OrderProductReadDto>();
+    public List<OrderItemReadDto> Items { get; set; } = new();
+    public decimal TotalAmount { get; set; }
   }
 }

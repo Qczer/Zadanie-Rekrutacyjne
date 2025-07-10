@@ -1,10 +1,11 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Product } from "../../models/Product";
 import type CartItem from "../../models/CartItem";
+import type { ProductVariant } from "../../models/ProductVariant";
 
 interface CartContextType {
   cartProducts: CartItem[];
-  addToCart: (product: Product, color: string, size: string) => void;
+  addToCart: (product: Product, variant: ProductVariant, amount?: number) => void;
   setCartProducts: Dispatch<SetStateAction<CartItem[]>>;
   decreaseFromCart: (cartItemId: string) => void;
   removeFromCart: (cartItemId: string) => void;

@@ -10,51 +10,36 @@ namespace EcommerceApi.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
         public DbSet<Product> Products => Set<Product>();
+        public DbSet<ProductVariant> ProductVariants => Set<ProductVariant>();
         public DbSet<Order> Orders => Set<Order>();
-        public DbSet<OrderProduct> OrderProducts => Set<OrderProduct>();
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var stringListComparer = new ValueComparer<List<string>>(
-                (c1, c2) => c1.SequenceEqual(c2), // Funkcja porównująca: zwraca true, jeśli listy mają te same elementy w tej samej kolejności.
-                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())), // Funkcja generująca hashcode na podstawie zawartości.
-                c => c.ToList() // Funkcja tworząca "migawkę" (kopię) listy.
-            );
+            // --- Product and ProductVariant Relationship --- If a product is deleted, its variants are deleted too.
+            modelBuilder.Entity<Product>()
+                .HasMany(p => p.ProductVariants)
+                .WithOne(pv => pv.Product)
+                .HasForeignKey(pv => pv.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Klucz złożony do tabeli łączącej
-            modelBuilder.Entity<OrderProduct>()
+            // --- Order and OrderItem Relationship --- If an order is deleted, its items are deleted too.
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.OrderItems)
+                .WithOne(oi => oi.Order)
+                .HasForeignKey(oi => oi.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // --- ProductVariant and OrderItem Relationship --- Prevent deleting a variant if it's in an order.
+            modelBuilder.Entity<ProductVariant>()
+                .HasMany(pv => pv.OrderItems)
+                .WithOne(oi => oi.ProductVariant)
+                .HasForeignKey(oi => oi.ProductVariantId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // --- Define Composite Key for the OrderItem junction table ---
+            modelBuilder.Entity<OrderItem>()
                 .HasKey(oi => new { oi.OrderId, oi.ProductVariantId });
-
-            // Relacje
-            modelBuilder.Entity<OrderProduct>()
-                .HasOne(oi => oi.Order)
-                .WithMany(o => o.OrderProducts)
-                .HasForeignKey(oi => oi.OrderId);
-
-            modelBuilder.Entity<OrderProduct>()
-                .HasOne(oi => oi.Product)
-                .WithMany(p => p.OrderProducts)
-                .HasForeignKey(oi => oi.ProductVariantId);
-
-            // NOWA KONFIGURACJA DLA LIST W PRODUKCIE
-            // Konwersja listy stringów (Sizes i Colors) na string JSON i z powrotem
-            var options = new JsonSerializerOptions();
-
-            modelBuilder.Entity<Product>()
-                .Property(p => p.Sizes)
-                .HasConversion(
-                    v => JsonSerializer.Serialize(v, options),
-                    v => !string.IsNullOrEmpty(v) ? JsonSerializer.Deserialize<List<string>>(v, options) ?? new List<string>() : new List<string>()
-                )
-                .Metadata.SetValueComparer(stringListComparer);
-
-            modelBuilder.Entity<Product>()
-                .Property(p => p.Colors)
-                .HasConversion(
-                    v => JsonSerializer.Serialize(v, options),
-                    v => !string.IsNullOrEmpty(v) ? JsonSerializer.Deserialize<List<string>>(v, options) ?? new List<string>() : new List<string>()
-                )
-                .Metadata.SetValueComparer(stringListComparer);
         }
     }
 }

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Product } from "../../models/Product";
 import CartContext from "./CartContext";
 import type CartItem from "../../models/CartItem";
+import type { ProductVariant } from "../../models/ProductVariant";
 
 const CART_STORAGE_KEY = "cartProducts";
 
@@ -16,15 +17,11 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   useEffect(() => {
-    try {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartProducts));
-    } catch {
-      // możesz dodać obsługę błędu jak chcesz
-    }
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartProducts));
   }, [cartProducts]);
 
-  const addToCart = useCallback((product: Product, color: string, size: string) => {
-    const cartItemId = `${product.id}-${color}-${size}`;
+  const addToCart = useCallback((product: Product, variant: ProductVariant, amount: number = 1) => {
+    const cartItemId = variant.id.toString();
     setCartProducts(prev => {
       const existing = prev.find(p => p.id === cartItemId);
       if (existing) {
@@ -38,9 +35,8 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
         const newItem: CartItem = {
           id: cartItemId,
           product,
-          color,
-          size,
-          amount: 1,
+          variant,
+          amount,
         };
         return [...prev, newItem];
       }

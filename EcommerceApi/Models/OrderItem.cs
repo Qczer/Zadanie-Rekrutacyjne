@@ -1,20 +1,22 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace EcommerceApi.Models
 {
-    public class OrderProduct
+    public class OrderItem
     {
         public int OrderId { get; set; }
         [JsonIgnore]
         public Order Order { get; set; } = null!;
 
-        public int ProductId { get; set; }
-        public Product Product { get; set; } = null!;
+        public int ProductVariantId { get; set; }
+        public ProductVariant ProductVariant { get; set; } = null!;
 
-        [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1.")]
+        [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
-        [Range(0.01, int.MaxValue, ErrorMessage = "Unit price must be positive.")]
+        
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal UnitPrice { get; set; }
     }
 }
