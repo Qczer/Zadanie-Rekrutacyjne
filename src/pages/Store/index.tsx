@@ -16,11 +16,13 @@ const Store = () => {
 
   const availableColors = useMemo(() => {
     const colorSet = new Set<string>();
+    if (!Array.isArray(products)) return [];
+
     products.forEach(p => 
-        p.variants.forEach(v => colorSet.add(v.color))
+        p.variants?.forEach(v => colorSet.add(v.color))
     );
     return Array.from(colorSet);
-}, [products]);
+  }, [products]);
 
   const filteredProducts = products
     // ZMIANA TUTAJ: Poprawiona logika filtrowania kolorów
