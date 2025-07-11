@@ -33,7 +33,10 @@ const Product = () => {
 
   useEffect(() => {
     if (selectedVariant) {
-      setSearchParams({ variant: selectedVariant.id.toString() });
+      setSearchParams(
+        { variant: selectedVariant.id.toString() },
+        { replace: true}
+      );
     }
   }, [selectedVariant, setSearchParams]);
 
